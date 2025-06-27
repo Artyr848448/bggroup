@@ -1,1 +1,152 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Telegram Боты для заработка</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: #000;
+      font-family: Arial, sans-serif;
+      color: #ccff00;
+    }
+
+    .bots-section {
+      padding: 20px;
+      background: linear-gradient(180deg, #000000 0%, #050505 100%);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: bold;
+      text-transform: uppercase;
+      margin-bottom: 30px;
+      color: #b6ff1e;
+    }
+
+    .bots-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      justify-items: center;
+    }
+
+    .bot-card {
+      background: #111;
+      border-radius: 20px;
+      padding: 10px;
+      transition: transform 0.3s ease;
+    }
+
+    .bot-card:hover {
+      transform: scale(1.05);
+    }
+
+    .bot-card img {
+      width: 100px;
+      height: auto;
+      border-radius: 12px;
+    }
+
+    .cta-button {
+      margin-top: 25px;
+      padding: 15px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      background: #00ff00;
+      color: #000;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: #b6ff1e;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0; top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.85);
+    }
+
+    .modal-content {
+      background: #111;
+      color: #fff;
+      padding: 20px;
+      margin: 100px auto;
+      width: 90%;
+      max-width: 400px;
+      border: 2px solid #00ff00;
+      border-radius: 12px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 15px;
+      top: 10px;
+      font-size: 24px;
+      color: #00ff00;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <section class="bots-section">
+    <h1>4 ГОТОВЫХ<br>TELEGRAM БОТА<br>ДЛЯ ЗАРАБОТКА</h1>
+    <div class="bots-grid">
+      <div class="bot-card" onclick="openModal('neuro')">
+        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/ai.jpg" alt="Нейро Бот">
+      </div>
+      <div class="bot-card" onclick="openModal('auto')">
+        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/Avto.jpg" alt="Авто История">
+      </div>
+      <div class="bot-card" onclick="openModal('vpn')">
+        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/vpn.jpg" alt="VPN Бот">
+      </div>
+      <div class="bot-card" onclick="openModal('cinema')">
+        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/kino.jpg" alt="Кино Сервис">
+      </div>
+    </div>
+    <button class="cta-button">Оставить заявку | Получить предложение</button>
+  </section>
+
+  <div id="modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">×</span>
+      <div id="modal-text"></div>
+    </div>
+  </div>
+
+  <script>
+    function openModal(bot) {
+      const modal = document.getElementById("modal");
+      const modalText = document.getElementById("modal-text");
+
+      const content = {
+        neuro: "<h2>Нейро Бот</h2><p>ИИ-сервисы, поиск информации, генерация картинок и текста. Подходит новичкам. Заработок 15–25 тыс/мес.</p>",
+        auto: "<h2>Авто История</h2><p>Проверка по VIN и гос.номеру. Подходит перекупам, СТО и частным продавцам. Заработок от 10 000₽ в неделю.</p>",
+        vpn: "<h2>VPN Бот</h2><p>Продажа подписок на VPN-сервисы. Подходит для всех, кто хочет пассивный доход на подписках.</p>",
+        cinema: "<h2>Кино Сервис</h2><p>Продажа подписок на фильмы и сериалы. Подходит молодым пользователям, студентам, гикам. Заработок зависит от рекламы.</p>"
+      };
+
+      modalText.innerHTML = content[bot] || "Нет данных";
+      modal.style.display = "block";
+    }
+
+    function closeModal() {
+      document.getElementById("modal").style.display = "none";
+    }
+  </script>
+</body>
+</html>
 
