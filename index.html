@@ -3,150 +3,172 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Telegram Боты для заработка</title>
+  <title>Магазин Apple</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: #000;
       font-family: Arial, sans-serif;
-      color: #ccff00;
+      background: #f5f5f7;
+      color: #333;
     }
-
-    .bots-section {
-      padding: 20px;
-      background: linear-gradient(180deg, #000000 0%, #050505 100%);
-      text-align: center;
+    header {
+      background: #000;
+      color: #fff;
+      padding: 10px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-
     h1 {
-      font-size: 22px;
-      font-weight: bold;
-      text-transform: uppercase;
-      margin-bottom: 30px;
-      color: #b6ff1e;
+      font-size: 24px;
+      margin: 0;
     }
-
-    .bots-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      justify-items: center;
-    }
-
-    .bot-card {
-      background: #111;
-      border-radius: 20px;
-      padding: 10px;
-      transition: transform 0.3s ease;
-    }
-
-    .bot-card:hover {
-      transform: scale(1.05);
-    }
-
-    .bot-card img {
-      width: 100px;
-      height: auto;
-      border-radius: 12px;
-    }
-
-    .cta-button {
-      margin-top: 25px;
-      padding: 15px 20px;
-      font-size: 14px;
-      font-weight: bold;
-      background: #00ff00;
+    #cart-btn {
+      background: #fff;
       color: #000;
       border: none;
-      border-radius: 12px;
+      padding: 8px 16px;
+      border-radius: 4px;
       cursor: pointer;
-      transition: background 0.3s ease;
     }
-
-    .cta-button:hover {
-      background: #b6ff1e;
+    .products {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
     }
-
-    .modal {
+    .product {
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+      text-align: center;
+      padding: 15px;
+    }
+    .product img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .product button {
+      margin-top: 10px;
+      background: #0071e3;
+      color: #fff;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #cart-modal {
       display: none;
       position: fixed;
-      z-index: 1000;
-      left: 0; top: 0;
+      top: 0; left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0,0,0,0.85);
+      background: rgba(0,0,0,0.5);
     }
-
-    .modal-content {
-      background: #111;
-      color: #fff;
-      padding: 20px;
-      margin: 100px auto;
+    #cart-content {
+      background: #fff;
       width: 90%;
       max-width: 400px;
-      border: 2px solid #00ff00;
-      border-radius: 12px;
+      margin: 60px auto;
+      padding: 20px;
+      border-radius: 8px;
       position: relative;
     }
-
-    .close-btn {
+    #close-cart {
       position: absolute;
-      right: 15px;
+      right: 10px;
       top: 10px;
-      font-size: 24px;
-      color: #00ff00;
       cursor: pointer;
+      font-size: 20px;
+    }
+    #cart-items li {
+      list-style: none;
+      margin-bottom: 8px;
     }
   </style>
 </head>
 <body>
-  <section class="bots-section">
-    <h1>4 ГОТОВЫХ<br>TELEGRAM БОТА<br>ДЛЯ ЗАРАБОТКА</h1>
-    <div class="bots-grid">
-      <div class="bot-card" onclick="openModal('neuro')">
-        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/ai.jpg" alt="Нейро Бот">
-      </div>
-      <div class="bot-card" onclick="openModal('auto')">
-        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/Avto.jpg" alt="Авто История">
-      </div>
-      <div class="bot-card" onclick="openModal('vpn')">
-        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/vpn.jpg" alt="VPN Бот">
-      </div>
-      <div class="bot-card" onclick="openModal('cinema')">
-        <img src="https://raw.githubusercontent.com/Artyr848448/bggroup/main/photo/kino.jpg" alt="Кино Сервис">
-      </div>
-    </div>
-    <button class="cta-button">Оставить заявку | Получить предложение</button>
-  </section>
+  <header>
+    <h1>Магазин Apple</h1>
+    <button id="cart-btn">Корзина (<span id="cart-count">0</span>)</button>
+  </header>
 
-  <div id="modal" class="modal">
-    <div class="modal-content">
-      <span class="close-btn" onclick="closeModal()">×</span>
-      <div id="modal-text"></div>
+  <section class="products" id="product-list"></section>
+
+  <div id="cart-modal">
+    <div id="cart-content">
+      <span id="close-cart">&times;</span>
+      <h2>Корзина</h2>
+      <ul id="cart-items"></ul>
+      <p>Итого: <span id="cart-total">0</span> ₽</p>
     </div>
   </div>
 
-  <script>
-    function openModal(bot) {
-      const modal = document.getElementById("modal");
-      const modalText = document.getElementById("modal-text");
+<script>
+const products = [
+  {id: 1, name: 'iPhone 14', price: 79999, img: 'https://source.unsplash.com/featured/?iphone'},
+  {id: 2, name: 'MacBook Pro', price: 199999, img: 'https://source.unsplash.com/featured/?macbook'},
+  {id: 3, name: 'iPad Air', price: 65999, img: 'https://source.unsplash.com/featured/?ipad'},
+  {id: 4, name: 'Apple Watch', price: 39999, img: 'https://source.unsplash.com/featured/?applewatch'},
+  {id: 5, name: 'AirPods Pro', price: 24999, img: 'https://source.unsplash.com/featured/?airpods'}
+];
 
-      const content = {
-        neuro: "<h2>Нейро Бот</h2><p>ИИ-сервисы, поиск информации, генерация картинок и текста. Подходит новичкам. Заработок 15–25 тыс/мес.</p>",
-        auto: "<h2>Авто История</h2><p>Проверка по VIN и гос.номеру. Подходит перекупам, СТО и частным продавцам. Заработок от 10 000₽ в неделю.</p>",
-        vpn: "<h2>VPN Бот</h2><p>Продажа подписок на VPN-сервисы. Подходит для всех, кто хочет пассивный доход на подписках.</p>",
-        cinema: "<h2>Кино Сервис</h2><p>Продажа подписок на фильмы и сериалы. Подходит молодым пользователям, студентам, гикам. Заработок зависит от рекламы.</p>"
-      };
+const cart = [];
 
-      modalText.innerHTML = content[bot] || "Нет данных";
-      modal.style.display = "block";
-    }
+function renderProducts() {
+  const list = document.getElementById('product-list');
+  products.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'product';
+    item.innerHTML = `
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>${p.price} ₽</p>
+      <button onclick="addToCart(${p.id})">Добавить</button>
+    `;
+    list.appendChild(item);
+  });
+}
 
-    function closeModal() {
-      document.getElementById("modal").style.display = "none";
-    }
-  </script>
+function addToCart(id) {
+  const product = products.find(p => p.id === id);
+  cart.push(product);
+  updateCartDisplay();
+}
+
+function updateCartDisplay() {
+  document.getElementById('cart-count').textContent = cart.length;
+}
+
+function openCart() {
+  const modal = document.getElementById('cart-modal');
+  const itemsList = document.getElementById('cart-items');
+  const totalEl = document.getElementById('cart-total');
+
+  itemsList.innerHTML = '';
+  let total = 0;
+  cart.forEach(item => {
+    const li = document.createElement('li');
+    li.textContent = `${item.name} - ${item.price} ₽`;
+    itemsList.appendChild(li);
+    total += item.price;
+  });
+
+  totalEl.textContent = total;
+  modal.style.display = 'block';
+}
+
+function closeCart() {
+  document.getElementById('cart-modal').style.display = 'none';
+}
+
+document.getElementById('cart-btn').addEventListener('click', openCart);
+
+renderProducts();
+
+document.getElementById('close-cart').addEventListener('click', closeCart);
+</script>
 </body>
 </html>
-
